@@ -1,7 +1,8 @@
 #include <iostream>
 #include <queue>
+#include <climits> // for INT_MIN, INT_MAX, isBST(root)
 
-#include <pair> // for treeHeightBreadth(root), minMax(root)
+//#include <pair> // for treeHeightBreadth(root), minMax(root)
 using namespace std;
 
 #include "binaryTreeNode.h"
@@ -224,7 +225,9 @@ int findInorderRootIndex(int *arr, int toFind, int start, int end) {
     return -1;
 }
 
-binaryTreeNode<int>* buildHelper(int *preorder, int *inorder, int inStart, int inEnd, int preStart, int preEnd) {
+binaryTreeNode<int>* buildHelper(int *preorder, int *inorder, 
+	int inStart, int inEnd, int preStart, int preEnd) {
+
     if(inStart > inEnd) {
         return NULL;
     }
@@ -266,17 +269,19 @@ binaryTreeNode<int>* buildTreePreOrderInOrder(int *preorder, int preLength, int 
  * TO USE -> 
  * buildTreePostOrderInOrder(<postOrder_trav_array>, <inOrder_trav_array>, <length of tree(int)>)
  */
-binaryTreeNode<int>* buildHelperFromPostOrder(int *postOrder, int *inOrder, int inStart, int inEnd, int postStart, int postEnd) {
+binaryTreeNode<int>* buildHelperFromPostOrder(int *postOrder, int *inOrder, int inStart,
+	int inEnd, int postStart, int postEnd) {
+
 	if(inStart > inEnd) {
 		return NULL;
 	}
 
 	int rootData = postOrder[postEnd];
-	int rootIndex = findInorderRootIndex(inorder, rootData, inStart, inEnd);
+	int rootIndex = findInorderRootIndex(inOrder, rootData, inStart, inEnd);
 
 	int lInStart = inStart; //left inOrder start
 	int lInEnd = rootIndex-1; // left inOrder end
-	int lPostStart postStart; // left postOrder start
+	int lPostStart = postStart; // left postOrder start
 	int lPostEnd = (lInEnd - lInStart) + lPostStart; // left postOder end
 
 	int rInStart = rootIndex + 1;
@@ -298,7 +303,7 @@ binaryTreeNode<int>* buildTreePostOrderInorder(int *postOrder, int *inOrder, int
 	 * start and end index of subtrees.
 	 * it will return root
 	 */
-	return buildHelperFromPostOrder(postOrder, inOrder, length);
+	return buildHelperFromPostOrder(postOrder, inOrder, 0, length-1, 0, length-1);
 }
 
 /*------------------------------------------------------------------------------
@@ -424,6 +429,47 @@ void printBetweenK1K2(binaryTreeNode<int> *root, int k1, int k2) {
 }
 
 
+/* -----------------------------------------------------------------------------
+ * - checks if a given binary tree
+ * is BST.
+ * - isBST(root, min(int), max(int))
+ * - takes root, min and max value
+ * as arguments.
+ * by default min & max are set to 
+ * INT_MIN & INT_MAX respectively.
+ * - constrains the range of min & max
+ * for every node according to node
+ * value, starting from INT_MIN, INT_MAX.
+ * - return a boolean value 0 or 1.
+ */
+
+bool isBST(binaryTreeNode<int> * root, int min = INT_MIN,
+	int max = INT_MAX) {
+
+	// base case
+	if(root == NULL) {
+		return true; // null tree is BST
+	}
+
+	if(root -> data < min || root -> data > max) {
+		return false;
+	}
+
+	/* recursive call on left subtree
+	 * narrow the range constraint by 
+	 * setting limit on max value.
+	 */
+	bool isBSTLeft = isBST(root -> left, min, root->data - 1);
+
+	/* recursive call on right subtree
+	 * narrow the range constraint by
+	 * setting limit on min value
+	 */
+	bool isBSTRight = isBST(root->right, root-> data, max);
+
+	return isBSTLeft && isBSTRight;
+}
+
 
 /*
 --------------------------------------------------------------------------------
@@ -464,6 +510,11 @@ int main() {
 	cout << endl;
 
 	//printBinaryTreeLevelWise(root);
+
+	if(isBST(root))
+		cout << "IS BST!" << endl;
+	else
+		cout << "Not BST!" << endl;
 
 	delete root;
 }

@@ -377,6 +377,54 @@ pair<int, int> minMax(binaryTreeNode<int> *root) {
 	return ans;
 }
 
+/* ----------------------------------------------------------------------------
+ * let us assume the given tree is
+ * BST.
+ * print all the nodes which are 
+ * between k1 and k2 inclusively
+ * in increasing ord(HINT : Tree is BST).
+ * 
+ * takes root and k1,k2 both int 
+ * as funtion arguments
+ * return type - void
+ * prints all nodes between k1 & k2.
+ * if exists(recursively).
+ */
+void printBetweenK1K2(binaryTreeNode<int> *root, int k1, int k2) {
+	// base case.
+	if(root == NULL || root -> data == -1) {
+		return;
+	}
+
+	if(root -> data > k2) {
+		printBetweenK1K2(root -> left, k1, k2);
+	}
+
+	if(root -> data < k1) {
+		printBetweenK1K2(root -> right, k1, k2);
+	}
+
+	if(root -> data >= k1 && root -> data <= k2) {
+		// if left node exists.
+		if(root -> left) {
+			printBetweenK1K2(root -> left, k1, k2);
+		}
+		/* in BST left < root <= right.
+		 * so to print -
+		 * left -> root -> right.
+		 */
+		cout << root -> data << " ";
+
+		// if right node exist.
+		if(root -> right) {
+			printBetweenK1K2(root -> right, k1, k2);
+		}
+	}
+	return;
+}
+
+
+
 /*
 --------------------------------------------------------------------------------
 	main - driver function.

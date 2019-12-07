@@ -313,7 +313,7 @@ binaryTreeNode<int>* buildTreePostOrderInorder(int *postOrder, int *inOrder, int
 */
 
 pair<int, int> treeHeightBreadth(binaryTreeNode<int>* root) {
-	/* base case -
+	/* Pointers case -
 	 * if root is NULL then, both 
 	 * height and breadth are 0.
 	 * pair = <first = height, sescond = breadth>
@@ -360,11 +360,11 @@ pair<int, int> minMax(binaryTreeNode<int> *root) {
 	ans.first =  2147483647; // numerical value of INT_MAX
 	ans.second =  -2147483648; // numerical value of INT_MIN
 
-	// base case1
+	// Pointers case1
 	if(root == NULL) {
 		return ans;
 	}
-	// base case2
+	// Pointers case2
 	if(root -> left == NULL && root -> right == NULL) {
 		ans.first = root -> data;
 		ans.second = root -> data;
@@ -396,7 +396,7 @@ pair<int, int> minMax(binaryTreeNode<int> *root) {
  * if exists(recursively).
  */
 void printBetweenK1K2(binaryTreeNode<int> *root, int k1, int k2) {
-	// base case.
+	// Pointers case.
 	if(root == NULL || root -> data == -1) {
 		return;
 	}
@@ -446,7 +446,7 @@ void printBetweenK1K2(binaryTreeNode<int> *root, int k1, int k2) {
 bool isBST(binaryTreeNode<int> * root, int min = INT_MIN,
 	int max = INT_MAX) {
 
-	// base case
+	// Pointers case
 	if(root == NULL) {
 		return true; // null tree is BST
 	}
@@ -469,6 +469,115 @@ bool isBST(binaryTreeNode<int> * root, int min = INT_MIN,
 
 	return isBSTLeft && isBSTRight;
 }
+
+/* ----------------------------------------------------------------------------
+ * create a sorted linked list
+ * from a given BST.
+ * input - root
+ * return - head pointer of ll, Node<int>*
+ * 2 approaches-
+ *    i. using helper class for head and tail
+ *    ii. using queue.
+ * 
+ */
+// Node class
+template <typename T>
+class Node{
+public:
+    T data;
+    Node<T> *next;
+    Node(T data){
+        this -> data = data;
+        this -> next = NULL;
+    }
+};
+
+// approach 1. using a helper class
+// which has member both head and tail of ll
+
+class Pointers {
+    public:
+    Node<int> *head = NULL;
+    Node<int> *tail = NULL;    
+};
+
+Pointers abc(binaryTreeNode<int>* root) {
+    if(root == NULL) {
+        Pointers p;
+        p.head = NULL;
+        p.tail = NULL;
+        return p;
+    }
+
+    Pointers leftPointers = abc(root -> left);
+    Pointers rightPointers = abc(root -> right);
+
+    Node<int> *newNode = new Node<int>(root -> data);
+
+    if(leftPointers.tail != NULL) {
+        leftPointers.tail -> next = newNode;
+    }
+    newNode -> next = rightPointers.head;
+    Pointers ans;
+    if(leftPointers.head != NULL) {
+        ans.head = leftPointers.head;
+    }
+    else
+        ans.head = newNode;
+    if(rightPointers.tail != NULL) {
+        ans.tail = rightPointers.tail;
+    }
+    else
+        ans.tail = newNode;
+    return ans;
+}
+
+Node<int> * constructBST(binaryTreeNode<int> *root) {
+    Pointers p = abc(root);
+    return p.head;
+}
+
+
+// // approach 2. using queue & inorder traversal.
+// void createQueue(binaryTreeNode<int>* root, queue<int>& q) {
+
+//     if(root == NULL) {
+//         return;
+//     }
+
+//     createQueue(root -> left, q);
+
+//     q.push(root -> data);
+
+//     createQueue(root -> right, q);
+
+//     return;
+// }
+
+
+// Node<int>* constructBST(binaryTreeNode<int>* root) {
+//     // tree -> 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1 
+//     queue<int> pendingNodes;
+//     createQueue(root, pendingNodes);
+    
+//     Node<int>* head = NULL;
+//     Node<int>* tail = NULL;
+
+//     while(pendingNodes.size() != 0) {
+//         Node<int> *newNode = new Node<int>(pendingNodes.front());
+//         pendingNodes.pop();
+
+//         if(head == NULL) {
+//             head = newNode;
+//         }
+//         else {
+//             tail -> next = newNode;
+//         }
+//         tail = newNode;
+//     }
+
+//     return head;   
+// }
 
 
 /*
@@ -515,6 +624,12 @@ int main() {
 		cout << "IS BST!" << endl;
 	else
 		cout << "Not BST!" << endl;
+
+	Node<int>* head = constructBST(root);
+    while(head != NULL) {
+        cout << head -> data << " ";
+        head = head -> next;
+    }
 
 	delete root;
 }

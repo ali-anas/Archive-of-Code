@@ -555,7 +555,7 @@ Node<int> * constructBST(binaryTreeNode<int> *root) {
 // }
 
 
-// Node<int>* constructBST(binaryTreeNode<int>* root) {
+// Node<int>* constructBST(bstinaryTreeNode<int>* root) {
 //     // tree -> 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1 
 //     queue<int> pendingNodes;
 //     createQueue(root, pendingNodes);
@@ -580,12 +580,98 @@ Node<int> * constructBST(binaryTreeNode<int> *root) {
 // }
 
 
+/*-------------------------------------------------------------------------------
+ * - returns a path from rootNode to given node
+ * in a given binary tree.
+ *
+ * vector<int>* getRootToNodePath(root, node_data)
+ *
+ * - takes root of binary tree and 
+ * desired_node_data as arguments
+ *
+ * - returns a pointer to vector of nodes that are
+ * in path from root to desired_node.
+ *
+ * - returns nullVector if node is not present 
+ * in binary tree or if root is NULL.
+ * 
+ *
+ */
+
+vector<int>* getRootToNodePath(binaryTreeNode<int> *root, int destNodeData) {
+	// base case - if root == NULL
+	if(root == NULL) {
+		return NULL;
+	}
+
+	// if root is destination node
+	if(root -> data == destNodeData) {
+		vector<int> *output = new vector<int>();
+		output -> push_back(root -> data);
+		return output;
+	}
+
+	/* if root is not NULL &
+	 * root is not destination node
+	 * look for destination node in
+	 * left sub-tree.
+	*/
+	vector<int> *leftOutput = getRootToNodePath(root -> left, destNodeData);
+
+	/* check if destination node is
+	 * present in left sub-tree.
+	 * if present then
+	 * insert cuurent root -> data
+	 * into the path and return path.
+	 */
+	if(leftOutput != NULL) {
+		leftOutput -> push_back(root -> data);
+		return leftOutput;
+	}
+
+	/* root is not NULL &
+	 * root is not destination node &
+	 * destination node is not
+	 * present in left sub-tree
+	 * look for dest node in 
+	 * right sub-tree.
+	 */
+	vector<int> *rightOutput = getRootToNodePath(root -> right, destNodeData);
+
+	/* check if destination node is
+	 * present in right sub-tree.
+	 * if present then
+	 * insert cuurent root -> data
+	 * into the path and return path.
+	 */
+	if(rightOutput != NULL) {
+		rightOutput -> push_back(root -> data);
+		return rightOutput;
+	}
+	/* root is not NULL &
+	 * root is not destination node &
+	 * destination node is not
+	 * present in left sub-tree &
+	 * destination node is not
+	 * present in right sub-tree
+	 * then return NULL
+	 * not found in tree.
+	 */
+	else {
+		//cout << "Not found in tree" << endl;
+		return NULL;
+	}
+
+}
+
+
 /*
 --------------------------------------------------------------------------------
 	main - driver function.
 */
 int main() {
-	/*  Tree -> 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
+	/*  binary Tree -> 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
+	    BST -> 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1
 	binaryTreeNode<int>* root = new binaryTreeNode<int>(1);
 	binaryTreeNode<int>* node1 = new binaryTreeNode<int>(2);
 	binaryTreeNode<int>* node2 = new binaryTreeNode<int>(3);
@@ -625,11 +711,17 @@ int main() {
 	else
 		cout << "Not BST!" << endl;
 
-	Node<int>* head = constructBST(root);
-    while(head != NULL) {
-        cout << head -> data << " ";
-        head = head -> next;
-    }
+	// Node<int>* head = constructBST(root);
+ //    while(head != NULL) {
+ //        cout << head -> data << " ";
+ //        head = head -> next;
+ //    }
+	vector<int> *v = getRootToNodePath(root, 8);
+	for(int i = 0; i < v -> size(); i++) {
+		cout << v -> at(i) << " ";
+	}
+	cout << endl;
+	delete v;
 
 	delete root;
 }

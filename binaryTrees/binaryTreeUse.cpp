@@ -664,6 +664,59 @@ vector<int>* getRootToNodePath(binaryTreeNode<int> *root, int destNodeData) {
 
 }
 
+/* ------------------------------------------------------------------------------
+ * - returns a path from rootNode to given node
+ * in a given BST.
+ *
+ * vector<int>* getRootToNodePathBST(root, node_data)
+ *
+ * - takes root of BST and 
+ * desired_node_data as arguments
+ *
+ * - returns a pointer to vector of nodes that are
+ * in path from root to desired_node.
+ *
+ * - returns nullVector if node is not present 
+ * in BST or if root is NULL.
+ */
+
+vector<int>* getRootToNodePathBST(BinaryTreeNode<int> *root , int data){
+    // base case
+    if(root == NULL) {
+        return NULL;
+    }
+    
+    // if root -> data == data.
+    if(root -> data == data) {
+        vector<int> *output = new vector<int>();
+        output -> push_back(root -> data);
+        return output;
+    }
+    
+    // if lies in left sub-tree.
+    if(root -> data > data) {
+        vector<int> *leftOutput = getRootToNodePathBST(root -> left, data);
+        if(leftOutput != NULL) {
+            leftOutput -> push_back(root -> data);
+            return leftOutput;
+        }
+        else {
+            return NULL;
+        }
+    }
+    // if lies in right sub-tree.
+    else {
+        vector<int> *rightOutput = getRootToNodePathBST(root -> right, data);
+        if(rightOutput != NULL) {
+            rightOutput -> push_back(root -> data);
+            return rightOutput;
+        }
+        else {
+            return NULL;
+        }
+    }
+
+}
 
 /*
 --------------------------------------------------------------------------------
@@ -706,17 +759,25 @@ int main() {
 
 	//printBinaryTreeLevelWise(root);
 
-	if(isBST(root))
-		cout << "IS BST!" << endl;
-	else
-		cout << "Not BST!" << endl;
+	// if(isBST(root))
+	// 	cout << "IS BST!" << endl;
+	// else
+	// 	cout << "Not BST!" << endl;
 
 	// Node<int>* head = constructBST(root);
  //    while(head != NULL) {
  //        cout << head -> data << " ";
  //        head = head -> next;
  //    }
-	vector<int> *v = getRootToNodePath(root, 8);
+	if(isBST(root)) {
+		// 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1
+		vector<int> *v = getRootToNodePathBST(root, 5);
+	}
+	else {
+		// 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
+		vector<int> *v = getRootToNodePath(root, 8);
+	}
+	
 	for(int i = 0; i < v -> size(); i++) {
 		cout << v -> at(i) << " ";
 	}

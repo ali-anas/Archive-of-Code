@@ -81,4 +81,22 @@ class PriorityQueue {
 		}
 		return ans;
 	}
+
+	void inplaceHeapSort(int input[], int n) {
+		for(int i = 0; i < n; i++) {
+
+			int childIndex = i;
+			while(childIndex > 0) {
+				int parentIndex = (childIndex-1)/2;
+				if(input[childIndex] < input[parentIndex]) {
+					int temp = input[childIndex];
+					input[childIndex] = input[parentIndex];
+					input[parentIndex] = temp;
+				} else {
+					break;
+				}
+				childIndex = parentIndex;
+			}
+		}
+	}
 };

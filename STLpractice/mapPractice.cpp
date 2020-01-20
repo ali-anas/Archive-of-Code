@@ -1,6 +1,16 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <unordered_map>
+
+/*
+ * <map> - implemented in balanced BST.
+ * 		- takes O(log n) time for average &
+ *		  worst case.
+ * <unordered_map> - implemented with hash-tables
+ * 		- takes O(1) in average case.
+ *		- takes O(n) in worst case.
+ */
 
 using namespace std;
 

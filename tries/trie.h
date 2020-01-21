@@ -128,4 +128,47 @@ public:
 	void removeWord (string word) {
 		removeHelper (root , word);
 	}
+
+	/*
+		functions and helper functions for autocomplete features.
+	 */
+
+	// to print suggestions.
+	void printSuggestions(trieNode *root, string seen) {
+    	if(root -> isTerminal == true) {
+        	cout << seen << endl;
+    	}
+    	    
+    	for(int i = 0; i < 26; i++) {
+        	if(root->children[i] != NULL) {
+            	char ch = root->children[i] -> data;
+            	printSuggestions(root->children[i], seen+ch);
+        	}
+    	}
+    	return;
+	}
+
+	// to check if given pattern exist.
+	// if not exist then just return.
+	// else call printSuggestions(root, pattern)
+	void checkIfPatternExist (trieNode *root, string pattern, string seen) {
+    	if(pattern.size() == 0) {
+    	    printSuggestions(root, seen);
+    	    return;
+    	}
+        
+    	int index = pattern[0] - 'a';
+    	trieNode *child;
+    	if(root -> children[index] != NULL) {
+        	child = root -> children[index];
+        	checkIfPatternExist(child, pattern.substr(1), seen+pattern[0]);
+    	}
+    	return;
+	}
+	// main public function for autocomplete.
+	void autoComplete(string pattern) {
+		string seen = "";
+    	checkIfPatternExist(this->root, pattern, seen);
+	}
+
 };

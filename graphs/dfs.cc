@@ -1,8 +1,10 @@
 #include <iostream>
+#include <unordered_map>
+
 using namespace std;
 
-
-void print(int** edges, int vertices, bool* visited, int start) {
+// prints in dfs manner.
+void print(int** edges, int vertices,unordered_map<int, bool> visited, int start) {
 	cout << start << endl;
 	visited[start] = true;
 	for(int i = 0; i < vertices, i++) {
@@ -11,7 +13,7 @@ void print(int** edges, int vertices, bool* visited, int start) {
 		}
 
 		if(edges[start][i] == 1) {
-			if(visited[i]) {
+			if(visited.at(i) == true) {
 				continue;
 			}
 			print(edges, vertices, visited, i);
@@ -19,7 +21,8 @@ void print(int** edges, int vertices, bool* visited, int start) {
 	}
 }
 
-int main(int argc, char[]* argv) {
+int main() {
+
 	cout << "enter no. of vertices & edges" << endl;
 	int vertices, edges;
 	cin >> vertices >> edges;
@@ -32,6 +35,7 @@ int main(int argc, char[]* argv) {
 			adjacency[i][j] = 0;
 		}
 	}
+	cout << "enter connected vertices" << endl;
 	for(int i = 0; i < edges; i++) {
 		int v1, v2;
 		cin >> v1 >> v2;
@@ -39,13 +43,11 @@ int main(int argc, char[]* argv) {
 		adjacency[v2][v1] = 1;
 	}
 
-	bool* visited = new bool[vertices];
-	for(int i = 0; i < vertices; i++) {
-		visited[i] = false;
-	}
+	unordered_map<int, bool> visited; 
 
-	cout << "enter starting vertex to print" << endl;
+	cout << "enter starting vertex to print with :" << endl;
 	int start;
+	cin >> start;
 
 	print(adjacency, vertices, visited, start);
 
@@ -54,8 +56,5 @@ int main(int argc, char[]* argv) {
 	}
 	delete []adjacency;
 
-	delete []visited;
-
 	return 0;
-
 }

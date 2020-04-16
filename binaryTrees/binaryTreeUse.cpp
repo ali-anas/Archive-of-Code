@@ -680,7 +680,7 @@ vector<int>* getRootToNodePath(binaryTreeNode<int> *root, int destNodeData) {
  * in BST or if root is NULL.
  */
 
-vector<int>* getRootToNodePathBST(BinaryTreeNode<int> *root , int data){
+vector<int>* getRootToNodePathBST(binaryTreeNode<int> *root , int data){
     // base case
     if(root == NULL) {
         return NULL;
@@ -722,67 +722,67 @@ vector<int>* getRootToNodePathBST(BinaryTreeNode<int> *root , int data){
 --------------------------------------------------------------------------------
 	main - driver function.
 */
-int main() {
-	/*  binary Tree -> 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
-	    BST -> 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1
-	binaryTreeNode<int>* root = new binaryTreeNode<int>(1);
-	binaryTreeNode<int>* node1 = new binaryTreeNode<int>(2);
-	binaryTreeNode<int>* node2 = new binaryTreeNode<int>(3);
+// int main() {
+// 	/*  binary Tree -> 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
+// 	    BST -> 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1
+// 	binaryTreeNode<int>* root = new binaryTreeNode<int>(1);
+// 	binaryTreeNode<int>* node1 = new binaryTreeNode<int>(2);
+// 	binaryTreeNode<int>* node2 = new binaryTreeNode<int>(3);
 
-	root -> left = node1;
-	root -> right = node2;
-	*/
+// 	root -> left = node1;
+// 	root -> right = node2;
+// 	*/
 
-	//binaryTreeNode<int>* root = takeInput();
+// 	//binaryTreeNode<int>* root = takeInput();
 
-	binaryTreeNode<int>* root = takeInputLevelWise();
+// 	binaryTreeNode<int>* root = takeInputLevelWise();
 
-	//printBinaryTree(root);
+// 	//printBinaryTree(root);
 
-	printBinaryTreeLevelWise(root);
+// 	printBinaryTreeLevelWise(root);
 
-	cout << "Total no. of nodes : " << numNodes(root) << endl;
+// 	cout << "Total no. of nodes : " << numNodes(root) << endl;
 
-	//mirrorBinaryTree(root);
+// 	//mirrorBinaryTree(root);
 
-	cout << "in-order traversal : ";
-	inOrder(root);
-	cout << endl;
+// 	cout << "in-order traversal : ";
+// 	inOrder(root);
+// 	cout << endl;
 
-	cout << "pre-order traversal : ";
-	preOrder(root);
-	cout << endl;
+// 	cout << "pre-order traversal : ";
+// 	preOrder(root);
+// 	cout << endl;
 
-	cout << "post-order traversal : ";
-	postOrder(root);
-	cout << endl;
+// 	cout << "post-order traversal : ";
+// 	postOrder(root);
+// 	cout << endl;
 
-	//printBinaryTreeLevelWise(root);
+// 	//printBinaryTreeLevelWise(root);
 
-	// if(isBST(root))
-	// 	cout << "IS BST!" << endl;
-	// else
-	// 	cout << "Not BST!" << endl;
+// 	// if(isBST(root))
+// 	// 	cout << "IS BST!" << endl;
+// 	// else
+// 	// 	cout << "Not BST!" << endl;
 
-	// Node<int>* head = constructBST(root);
- //    while(head != NULL) {
- //        cout << head -> data << " ";
- //        head = head -> next;
- //    }
-	if(isBST(root)) {
-		// 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1
-		vector<int> *v = getRootToNodePathBST(root, 5);
-	}
-	else {
-		// 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
-		vector<int> *v = getRootToNodePath(root, 8);
-	}
+// 	// Node<int>* head = constructBST(root);
+//  //    while(head != NULL) {
+//  //        cout << head -> data << " ";
+//  //        head = head -> next;
+//  //    }
+// 	if(isBST(root)) {
+// 		// 4 2 6 1 3 5 7 -1 -1 -1 -1 -1 -1 -1 -1
+// 		vector<int> *v = getRootToNodePathBST(root, 5);
+// 	}
+// 	else {
+// 		// 1 2 3 4 5 6 7 -1 -1 -1 -1 8 9 -1 -1 -1 -1 -1 -1
+// 		vector<int> *v = getRootToNodePath(root, 8);
+// 	}
 	
-	for(int i = 0; i < v -> size(); i++) {
-		cout << v -> at(i) << " ";
-	}
-	cout << endl;
-	delete v;
+// 	for(int i = 0; i < v -> size(); i++) {
+// 		cout << v -> at(i) << " ";
+// 	}
+// 	cout << endl;
+// 	delete v;
 
-	delete root;
-}
+// 	delete root;
+// }

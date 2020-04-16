@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "iostream": "cpp"
+    },
+    "files.trimTrailingWhitespace": true,
+    "editor.renderWhitespace": "boundary"
+}

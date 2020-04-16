@@ -28,7 +28,9 @@ int main() {
     long small = arr[0] + k;
     long big = arr[n-1] - k;
     if(small > big) {
-        swap(big, small);
+        long temp = small;
+        small = big;
+        big = temp;
     }
 
     for(long i = 1; i < n-1; i++) {
@@ -45,7 +47,7 @@ int main() {
         }
     }
 
-    long ans = min((arr[n-1]-k)-(arr[0]+k), big-small);
+    long ans = min(arr[n-1]-arr[0], big-small);
     cout << ans << endl;
     delete []arr;
     return 0;

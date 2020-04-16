@@ -19,10 +19,28 @@ int minCount(int n) {
 	return least+1;
 }
 
+int minCountDP(int n) {
+	int*dp = new int[n+1];
+	dp[0] = 0;
+	dp[1] = 1;
+	dp[2] = 2;
+	dp[3] = 3;
+	for(int i = 4; i <= n; i++) {
+		dp[i] = i;
+		for(int j = 1; j <= sqrt(i); j++) {
+			dp[i] = min(dp[i], 1 + dp[i- (j*j)]);
+		}
+	}
+	int ans = dp[n];
+	delete []dp;
+	return ans;
+}
+
 int main(){
     
     int num;
     cin >> num;
-    cout << minCount(num);
-    
+    //cout << minCount(num) << endl;
+    cout << minCountDP(num) << endl;
+    return 0;
 }

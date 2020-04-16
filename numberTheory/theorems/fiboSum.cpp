@@ -49,22 +49,30 @@ unsigned long long fibo(unsigned long long n) {
 unsigned long long fiboSum(unsigned long long m,unsigned long long n)
 {
 	// Write your code here
-    unsigned long long first = fibo(m);
-    if(m == n) {
-        return first;
-    }
-    unsigned long long second = fibo(m+1);
+	
+	// can lead to TLE m,n <= 10^9. 1 --- 10 ^ 9
+    // unsigned long long first = fibo(m);
+    // if(m == n) {
+    //     return first;
+    // }
+    // unsigned long long second = fibo(m+1);
     
-    unsigned long long ans = (first + second) % mod;
-    if(n == m+1) {
-        return ans;
-    }
-    for(unsigned long long i = m+2; i <= n; i++) {
-        unsigned long long currFibo = (first + second) % mod;
-        ans = (ans + currFibo) % mod;
-        first = second;
-        second = currFibo;
-    }
+    // unsigned long long ans = (first + second) % mod;
+    // if(n == m+1) {
+    //    return ans;
+    // }
+    // for(unsigned long long i = m+2; i <= n; i++) {
+    //     unsigned long long currFibo = (first + second) % mod;
+    //     ans = (ans + currFibo) % mod;
+    //     first = second;
+    //     second = currFibo;
+    // }
+    
+    // alternate solution
+    // S(n) = F(n+2)-1;
+    unsigned long long nSum = fibo(n+2);
+    unsigned long long m_1Sum = fibo(m+1);
+    unsigned long long ans = (nSum - m_1Sum + mod) % mod;
     
     return ans;
 }

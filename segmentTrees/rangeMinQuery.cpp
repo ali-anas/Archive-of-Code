@@ -35,6 +35,44 @@ void updateTree(int start, int end, int treeIndex, int index, int value) {
 	tree[treeIndex] = min(tree[treeIndex*2], tree[treeIndex*2 + 1]);
 }
 
+void updateTree(int start, int end, int left, int right, int treeIndex, int value) {
+	// completely outside of range
+	if(start > right || end < left) {
+		return;
+	}
+	
+	// completely inside the range
+	if(start >= left && end <= right) {
+		tree[treeIndex] = value;
+	}
+	
+	// partially inside/outside
+	int mid = (start + end) / 2;
+	int leftAns = queryTree(start, mid, left, right, treeIndex*2);
+	int rightAns = queryTree(mid+1, end, left, right, treeIndex*2 + 1);
+	
+	return;
+}
+
+void updateTree(int start, int end, int left, int right, int treeIndex, int value) {
+	// completely outside of range
+	if(start > right || end < left) {
+		return;
+	}
+	
+	// completely inside the range
+	if(start >= left && end <= right) {
+		tree[treeIndex] = value;
+	}
+	
+	// partially inside/outside
+	int mid = (start + end) / 2;
+	int leftAns = queryTree(start, mid, left, right, treeIndex*2);
+	int rightAns = queryTree(mid+1, end, left, right, treeIndex*2 + 1);
+	
+	return;
+}
+
 int queryTree(int start, int end, int left, int right, int treeIndex) {
 	// completely outside of range
 	if(start > right || end < left) {
@@ -51,7 +89,26 @@ int queryTree(int start, int end, int left, int right, int treeIndex) {
 	int leftAns = queryTree(start, mid, left, right, treeIndex*2);
 	int rightAns = queryTree(mid+1, end, left, right, treeIndex*2 + 1);
 	
-	return min(leftAns, rightAns);
+	return max(leftAns, rightAns);
+}
+
+int queryTreeSum(int start, int end, int left, int right, int treeIndex) {
+	// completely outside of range
+	if(start > right || end < left) {
+		return 0;
+	}
+	
+	// completely inside the range
+	if(start >= left && end <= right) {
+		return tree[treeIndex];
+	}
+	
+	// partially inside/outside
+	int mid = (start + end) / 2;
+	int leftAns = queryTreeSum(start, mid, left, right, treeIndex*2);
+	int rightAns = queryTreeSum(mid+1, end, left, right, treeIndex*2 + 1);
+	
+	return leftAns + rightAns;
 }
 
 int main() {
@@ -73,9 +130,9 @@ int main() {
 			printf("%d\n", ans);	
 		} 
 		if(option == 'u') {
-			int index, value;
-			scanf("%d%d", &index, &value);
-			updateTree(0, n-1, 1, index-1, value);
+			int l, r, value;
+			scanf("%d%d", &l, &r, &value);
+			updateTree(0, n-1,l-1, r-1, 1, value);
 		}
 	}
 	

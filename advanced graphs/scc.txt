@@ -1,0 +1,93 @@
+CT20203331604
+Username : anasalialmora@gmail.com
+Password : w x 2 J E Z g
+
+void dfs1(vector<int>* g, int start, unordered_set<int>& visited, stack<int>& finished) {
+	visited.insert(start);
+	for(int i = 0; i < g[start].size(); i++) {
+		int next = g[start][i];
+		if(visited.count(next) == 0) {
+			dfs1(g, next, visited, finished);
+		}
+	}
+
+	finished.push(start);
+}
+
+void dfs1(vector<int>* t, int start, unordered_set<int>& visited, unordered_set<int>* component) {
+	visited.insert(start);
+	component -> insert(start);
+	for(int i = 0; i < t[start].size(); i++) {
+		int next = t[start][i];
+		if(visited.count(next) == 0) {
+			dfs2(t, next, visited, component);
+		}
+	}
+
+	finished.push(start);
+}
+
+
+unordered_set<unordered_set<int>*>* getComponents(vector<int>* g, vector<int>* t, int n) {
+	unordered_set<int> visited;
+	stack<int> finished;
+	for(int i = 0; i < n; i++){
+		if(visited.count(i) == 0) {
+			dfs1(g, i, visited, finished);
+		}
+	}
+
+	visited.clear();
+	unordered_set<unordered_set<int>*>* output = new unordered_set<unordered_set<int>*>();
+	while(!finished.empty()) {
+		int topElem = finished.top();
+		finished.pop();
+
+		if(visited.count(topElem) != 0) {
+			continue;
+		}
+
+		unordered_set<int>* component = new unordered_set<int>();
+		dfs2(t, topElem, visited, component);
+		output -> insert(component);
+	}
+	return output;
+}
+
+
+
+int main() {
+	int n;
+	cin >> n;
+	vector<int>* graph = new vector<int>[n];
+	vector<int>* transpose_graph = new vector<int>[n];
+
+	int t1, t2;
+	for(int i = 0; i < n; i++) {
+		cin >> t1 >> t2;
+		graph[t1-1].push_back(t2-1);
+		transpose_graph[t2-1].push_back(t1-1);
+	}
+
+	unordered_set<unordered_set<int>*>* components = getCompopnents(graph, transpose_graph, n);
+
+	unordered_set<unordered_set<int>*>::iterator it = components -> begin();
+
+	for(; it != components -> end(); it++) {
+		unordered_set<int>* component = *it;
+		unordered_set<int>::iterator it2 = component.begin();
+		while(it2 != component -> end()) {
+			cout << *it2 + 1 << " ";
+			it2++;
+		}
+
+		delete(component);
+		cout << endl;
+	}
+
+	delete []components;
+	delete []graph;
+	delete []transpose_graph;
+	return 0;
+
+}
